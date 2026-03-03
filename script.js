@@ -1,68 +1,80 @@
-class Quiz {
-    constructor() {
-        this.questions = [];
-        this.currentQuestionIndex = 0;
-        this.score = 0;
-        this.loadQuestions();
+class Question {
+    constructor(question, options, correctAnswer) {
+        this.question = question;
+        this.options = options;
+        this.correctAnswer = correctAnswer;
     }
 
-    async loadQuestions() {
-        try {
-            const response = await fetch("http://127.0.0.1:5000/questions");
-            this.questions = await response.json();
-            this.showQuestion();
-        } catch (error) {
-            console.error("Error loading questions:", error);
-        }
-    }
-
-    showQuestion() {
-        if (this.currentQuestionIndex >= this.questions.length) {
-            document.getElementById("question").innerText = "Quiz Completed!";
-            document.getElementById("options").innerHTML = "";
-            document.getElementById("next-btn").style.display = "none";
-            document.getElementById("score").innerText = `Final Score: ${this.score}/${this.questions.length}`;
-            return;
-        }
-
-        const questionData = this.questions[this.currentQuestionIndex];
-        document.getElementById("question").innerText = questionData.question;
-        const optionsContainer = document.getElementById("options");
-        optionsContainer.innerHTML = "";
-
-        questionData.options.forEach((option) => {
-            const button = document.createElement("button");
-            button.innerText = option;
-            button.classList.add("option");
-            button.onclick = () => this.checkAnswer(questionData.id, option);
-            optionsContainer.appendChild(button);
-        });
-    }
-
-    async checkAnswer(questionId, userAnswer) {
-        try {
-            const response = await fetch("http://127.0.0.1:5000/check-answer", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ id: questionId, answer: userAnswer })
-            });
-            const result = await response.json();
-
-            if (result.correct) {
-                alert("Correct!");
-                this.score++;
-            } else {
-                alert("Wrong Answer!");
-            }
-
-            this.currentQuestionIndex++;
-            this.showQuestion();
-        } catch (error) {
-            console.error("Error checking answer:", error);
-        }
+    isCorrect(choice) {
+        return this.options[choice] === this.correctAnswer;
     }
 }
 
-// Initialize the quiz
-const quiz = new Quiz();
-document.getElementById("next-btn").addEventListener("click", () => quiz.showQuestion());
+class Quiz {
+    constructor(questions) {
+        this.questions = questions;
+        this.currentQuestionIndex = 0;
+        this.score = 0;
+    }
+
+    getCurrentQuestion() {
+        return this.questions[this.currentQuestionIndex];
+    }
+
+    checkAnswer(choice) {
+        if (this.getCurrentQuestion().isCorrect(choice)) {
+            this.score++;
+            alert("Correct!");
+        } else {
+            alert("Wrong Answer!");
+        }
+        this.currentQuestionIndex++;
+    }
+
+    isFinished() {
+        return this.currentQuestionIndex >= this.questions.length;
+    }
+}
+
+// Sample Questions
+const questions = [
+    new Question("What is 2 + 2?", ["3", "4", "5", "6"], "4"),
+    new Question("What is the capital of France?", ["Berlin", "Madrid", "Paris", "Rome"], "Paris"),
+    new Question("What is the largest planet?", ["Earth", "Mars", "Jupiter", "Saturn"], "Jupiter"),
+];
+
+const quiz = new Quiz(questions);
+
+const questionElement = document.getElementById("question");
+const optionsContainer = document.getElementById("options");
+const nextButton = document.getElementById("next-btn");
+const scoreElement = document.getElementById("score");
+
+function loadQuestion() {
+    if (quiz.isFinished()) {
+        questionElement.innerHTML = "Quiz Completed!";
+        optionsContainer.innerHTML = "";
+        nextButton.style.display = "none";
+        scoreElement.innerHTML = `Final Score: ${quiz.score}/${quiz.questions.length}`;
+        return;
+    }
+
+    const currentQuestion = quiz.getCurrentQuestion();
+    questionElement.innerHTML = currentQuestion.question;
+    optionsContainer.innerHTML = "";
+
+    currentQuestion.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.innerText = option;
+        button.classList.add("option");
+        button.onclick = () => {
+            quiz.checkAnswer(index);
+            loadQuestion();
+        };
+        optionsContainer.appendChild(button);
+    });
+}
+
+nextButton.addEventListener("click", loadQuestion);
+loadQuestion();
+
