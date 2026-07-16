@@ -1,52 +1,72 @@
 # 🎯 Quiz App
 
-A simple and interactive **Quiz Application** built using **HTML**, **CSS**, and **JavaScript**.  
-This app presents multiple-choice questions one by one, gives instant feedback (correct/wrong), and displays the final score at the end.
+A simple and interactive **Quiz Application** built using **HTML**, **CSS**, and **JavaScript**. The application presents multiple-choice questions one at a time, provides instant feedback for each answer, and displays the user's final score at the end of the quiz.
 
 ---
 
 ## ✨ Features
-- 📌 Clean and responsive UI  
-- 📌 Multiple-choice questions  
-- 📌 Instant correct/wrong answer feedback  
-- 📌 Next button to load questions  
-- 📌 Final score shown at the end  
-- 📌 Fully built using vanilla JavaScript (no frameworks)
+
+- Clean and responsive user interface
+- Multiple-choice quiz questions
+- Instant feedback for correct and incorrect answers
+- Next button to navigate through questions
+- Final score displayed after completing the quiz
+- Built entirely with Vanilla JavaScript (no frameworks)
 
 ---
 
 ## 🛠️ Tech Stack
-- **HTML5** – Page structure  
-- **CSS3** – Styling and layout  
-- **JavaScript (ES6)** – Quiz logic and interactions  
+
+- **HTML5** – Structure of the application
+- **CSS3** – Styling and responsive layout
+- **JavaScript (ES6)** – Quiz logic and user interactions
 
 ---
 
 ## 📁 Project Structure
-quiz-app/
-│── index.html # Main HTML structure
-│── style.css # UI styling
-│── script.js # Quiz logic
 
+```text
+quiz-app/
+│── index.html      # Main HTML page
+│── style.css       # Styling for the application
+│── script.js       # Quiz logic and functionality
+```
 
 ---
 
 ## 🚀 How to Run
 
-1. Download or clone the repository  
-2. Open the folder  
-3. Simply open **index.html** in any browser:
+1. Clone or download the repository.
+2. Open the project folder.
+3. Open **index.html** in any web browser.
 
+Example:
 
-Right Click → Open with → Chrome
-No server or installation required.
+```text
+Right Click → Open With → Google Chrome
+```
+
+No installation or server setup is required.
 
 ---
 
 ## 🧠 How It Works
 
-- Questions are stored as JavaScript objects  
-- When a user selects an option, the app checks the answer  
-- Alerts are shown for correct/wrong  
-- Score increases on correct answers  
-- The app ends by showing:
+1. Quiz questions are stored as JavaScript objects.
+2. One question is displayed at a time.
+3. The user selects an answer.
+4. The application checks whether the selected answer is correct.
+5. Immediate feedback is shown for the selected option.
+6. If the answer is correct, the score is incremented.
+7. Clicking **Next** loads the next question.
+8. After all questions are answered, the application displays the final score.
+
+---
+
+## 📊 Output
+
+At the end of the quiz, the application displays:
+
+- Total Score
+- Number of Correct Answers
+- Quiz Completion Message
